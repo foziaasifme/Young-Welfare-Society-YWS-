@@ -11,6 +11,8 @@ export interface Project {
   status: 'Ongoing' | 'Completed' | 'Upcoming';
   imageUrl: string;
   beneficiaries?: string;
+  donorPartner?: string;
+  totalBudget?: string;
 }
 
 export interface ActivityItem {

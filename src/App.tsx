@@ -134,7 +134,6 @@ export default function App() {
             <Hero setTab={setTab} />
             <TrustBanner />
             <MissionVision mission={orgInfo.mission} vision={orgInfo.vision} />
-            <AreasOfWork setTab={setTab} />
             <ImpactStats />
             <ProjectsSection projects={projects} setTab={setTab} />
             <ActivitiesSection activities={activities} setTab={setTab} />
@@ -194,7 +193,12 @@ export default function App() {
           </div>
         )}
 
-        {currentTab === 'projects' && <ProjectsPage projects={projects} />}
+        {currentTab === 'projects' && (
+          <>
+            <ProjectsPage projects={projects} />
+            <AreasOfWork setTab={setTab} />
+          </>
+        )}
 
         {currentTab === 'activities' && <ActivitiesPage activities={activities} />}
 

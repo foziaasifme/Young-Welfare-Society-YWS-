@@ -32,7 +32,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'work', label: 'Our Work', hasDropdown: true },
-    { id: 'get-involved', label: 'Get Involved' },
     { id: 'contact', label: 'Contact' },
   ];
 

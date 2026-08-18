@@ -250,9 +250,11 @@ export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo, onAddSubscriber
       {/* 3. Bottom footer copywrights bar */}
       <div className="max-w-7xl mx-auto px-6 sm:px-8 mt-16 pt-8 border-t border-emerald-900/80 text-center text-[11px] text-emerald-400/70 flex flex-col sm:flex-row justify-between items-center gap-4 font-light">
         <p>© 2026 Young Welfare Society. All Rights Reserved. Reg: SL-1763.</p>
-        <p className="flex items-center gap-1">
+        <p className="flex items-center gap-1 flex-wrap justify-center">
           <span>Nonprofit Website Design built beautifully.</span>
           <span className="text-rose-500">❤️</span>
+          <span className="mx-1">•</span>
+          <span>Developed by <a href="https://mediaplus.ai.studio/" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-yellow-300 underline font-medium transition-colors">Mediaplus Digital</a></span>
         </p>
         <div className="flex gap-4">
           <a href="#" className="hover:text-white transition-colors">Accessibility Policy</a>
