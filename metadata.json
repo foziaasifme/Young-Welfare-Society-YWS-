@@ -1,0 +1,6 @@
+{
+  "name": "Young Welfare Society (YWS)",
+  "description": "Official website of Young Welfare Society (YWS), working for community welfare, youth empowerment, and social development since 1992 in Dhanot, Punjab, Pakistan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
