@@ -190,6 +190,16 @@ export const Hero: React.FC<HeroProps> = ({ setTab }) => {
               <span>Explore Our Welfare Projects</span>
               <ArrowRight className="w-4 h-4" />
             </button>
+
+            <a
+              href="https://maps.google.com/?q=Dhanot+Lodhran+Punjab+Pakistan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full bg-emerald-950 hover:bg-emerald-900 border border-emerald-700 text-emerald-200 font-semibold py-2.5 px-4 rounded-xl transition-colors text-xs flex items-center justify-center gap-2"
+            >
+              <MapPin className="w-4 h-4 text-emerald-400" />
+              <span>View HQ Location on Google Maps (Dhanot, Lodhran)</span>
+            </a>
           </motion.div>
         </div>
       </div>
