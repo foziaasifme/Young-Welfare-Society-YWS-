@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PageTab, OrgInfo, Project, ActivityItem } from '../types';
-import { Menu, X, Phone, Mail, Facebook, Heart, ShieldCheck, Settings, Download, Smartphone, Check, Search, ArrowRight } from 'lucide-react';
+import { Menu, X, Phone, Mail, Facebook, Heart, ShieldCheck, Settings, Download, Smartphone, Check, Search, ArrowRight, ChevronDown, Lock, KeyRound } from 'lucide-react';
 
 interface NavbarProps {
   currentTab: PageTab;
@@ -14,17 +14,24 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [installModalOpen, setInstallModalOpen] = useState(false);
   const [installSuccess, setInstallSuccess] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+  
+  // Search Modal State (Search icon opens search window)
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // Master Key Admin Protection State
+  const [adminModalOpen, setAdminModalOpen] = useState(false);
+  const [masterKeyInput, setMasterKeyInput] = useState('');
+  const [masterKeyError, setMasterKeyError] = useState(false);
 
-  const navLinks: { id: PageTab; label: string }[] = [
+  // Mega Menu Dropdown State for "Our Work"
+  const [workDropdownOpen, setWorkDropdownOpen] = useState(false);
+
+  // Removed Gallery and FAQ from Header navLinks per instructions
+  const navLinks: { id: PageTab; label: string; hasDropdown?: boolean }[] = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
-    { id: 'work', label: 'Our Work' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'activities', label: 'Activities' },
-    { id: 'gallery', label: 'Gallery' },
-    { id: 'faq', label: 'FAQ' },
+    { id: 'work', label: 'Our Work', hasDropdown: true },
     { id: 'get-involved', label: 'Get Involved' },
     { id: 'contact', label: 'Contact' },
   ];
@@ -35,9 +42,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
     ...activities.filter(a => a.title.toLowerCase().includes(searchQuery.toLowerCase()) || a.summary.toLowerCase().includes(searchQuery.toLowerCase())).map(a => ({ type: 'Activity', title: a.title, tab: 'activities' as PageTab })),
     { type: 'Page', title: 'About Young Welfare Society', tab: 'about' as PageTab },
     { type: 'Page', title: 'Areas of Work & Scope', tab: 'work' as PageTab },
-    { type: 'Page', title: 'Frequently Asked Questions (FAQ)', tab: 'faq' as PageTab },
     { type: 'Page', title: 'Volunteer Registration', tab: 'get-involved' as PageTab },
-  ].filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5);
+  ].filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 6);
 
   const handleInstallApp = () => {
     setInstallSuccess(true);
@@ -45,6 +51,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
       setInstallSuccess(false);
       setInstallModalOpen(false);
     }, 2500);
+  };
+
+  const handleAdminKeySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (masterKeyInput.trim() === '8686046') {
+      setMasterKeyError(false);
+      setMasterKeyInput('');
+      setAdminModalOpen(false);
+      setTab('admin');
+    } else {
+      setMasterKeyError(true);
+    }
   };
 
   return (
@@ -68,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
               </a>
             </div>
             <div className="flex items-center gap-3">
-              {/* App Installer Icon button before Facebook icon */}
+              {/* App Installer Icon button */}
               <button
                 onClick={() => setInstallModalOpen(true)}
                 className="bg-emerald-800 hover:bg-emerald-700 px-2.5 py-1 rounded-full transition-colors text-white flex items-center gap-1 text-xs font-medium shadow-sm"
@@ -88,11 +106,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
                 <Facebook className="w-3.5 h-3.5" />
               </a>
 
+              {/* Protected Admin Icon button (Master key 8686046) */}
               <button
-                onClick={() => setTab('admin')}
+                onClick={() => setAdminModalOpen(true)}
                 className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold transition-colors ${
                   currentTab === 'admin' ? 'bg-emerald-700 text-white' : 'bg-emerald-800 hover:bg-emerald-700 text-emerald-100'
                 }`}
+                title="Admin Portal (Protected)"
               >
                 <Settings className="w-3.5 h-3.5" />
                 Admin
@@ -123,80 +143,101 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
             </div>
           </div>
 
-          {/* Global Search Bar */}
-          <div className="hidden md:block relative flex-1 max-w-md mx-4">
-            <div className="relative">
-              <Search className="absolute left-3.5 top-3 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setSearchOpen(true)}
-                placeholder="Search projects, activities, pages..."
-                className="w-full bg-gray-50 border border-gray-300 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 transition-all"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 text-xs font-semibold bg-gray-200 px-1.5 py-0.5 rounded"
-                >
-                  Clear
-                </button>
-              )}
-            </div>
+          {/* Desktop Nav with Mega Menu for Our Work */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 shrink-0 relative">
+            {navLinks.map((link) => {
+              if (link.id === 'work') {
+                return (
+                  <div
+                    key={link.id}
+                    className="relative"
+                    onMouseEnter={() => setWorkDropdownOpen(true)}
+                    onMouseLeave={() => setWorkDropdownOpen(false)}
+                  >
+                    <button
+                      onClick={() => setTab('work')}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
+                        currentTab === 'work' || currentTab === 'projects' || currentTab === 'activities'
+                          ? 'bg-emerald-600 text-white shadow-sm'
+                          : 'text-gray-700 hover:bg-emerald-50 hover:text-emerald-900'
+                      }`}
+                    >
+                      <span>{link.label}</span>
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
 
-            {/* Search Results Dropdown */}
-            {searchQuery.trim() !== '' && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden z-50">
-                <div className="p-3 bg-emerald-900 text-white text-xs font-semibold flex justify-between items-center">
-                  <span>Search Results</span>
-                  <span>{searchResults.length} found</span>
-                </div>
-                {searchResults.length === 0 ? (
-                  <div className="p-4 text-center text-xs text-gray-500">
-                    No matching results found for "{searchQuery}".
-                  </div>
-                ) : (
-                  <div className="divide-y divide-gray-100 max-h-64 overflow-y-auto">
-                    {searchResults.map((res, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => {
-                          setTab(res.tab);
-                          setSearchQuery('');
-                        }}
-                        className="w-full text-left p-3 hover:bg-emerald-50 transition-colors flex items-center justify-between text-xs sm:text-sm"
-                      >
-                        <div>
-                          <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded mr-2">
-                            {res.type}
-                          </span>
-                          <span className="font-semibold text-gray-800">{res.title}</span>
+                    {/* Mega Menu Dropdown */}
+                    {workDropdownOpen && (
+                      <div className="absolute top-full left-0 mt-1 w-72 bg-white rounded-2xl shadow-xl border border-emerald-100 p-3 z-50 animate-in fade-in duration-200 space-y-1">
+                        <div className="px-3 py-2 text-[11px] font-bold text-emerald-800 uppercase tracking-wider border-b border-gray-100">
+                          Our Work & Activities
                         </div>
-                        <ArrowRight className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                      </button>
-                    ))}
+                        <button
+                          onClick={() => {
+                            setTab('work');
+                            setWorkDropdownOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-950 transition-colors flex items-center justify-between"
+                        >
+                          <span>Areas of Work Overview</span>
+                          <ArrowRight className="w-3.5 h-3.5 text-emerald-600" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setTab('projects');
+                            setWorkDropdownOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-950 transition-colors flex items-center justify-between"
+                        >
+                          <div>
+                            <span className="font-semibold text-gray-900 block">Projects</span>
+                            <span className="text-[11px] text-gray-500">Active welfare initiatives</span>
+                          </div>
+                          <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded-full font-bold">{projects.length}</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            setTab('activities');
+                            setWorkDropdownOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-950 transition-colors flex items-center justify-between"
+                        >
+                          <div>
+                            <span className="font-semibold text-gray-900 block">Activities & News</span>
+                            <span className="text-[11px] text-gray-500">Recent events & drives</span>
+                          </div>
+                          <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded-full font-bold">{activities.length}</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            )}
-          </div>
+                );
+              }
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 shrink-0">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => setTab(link.id)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  currentTab === link.id
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-gray-700 hover:bg-emerald-50 hover:text-emerald-900'
-                }`}
-              >
-                {link.label}
-              </button>
-            ))}
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => setTab(link.id)}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    currentTab === link.id
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-gray-700 hover:bg-emerald-50 hover:text-emerald-900'
+                  }`}
+                >
+                  {link.label}
+                </button>
+              );
+            })}
+
+            {/* Clickable Search Icon Button (opens search window modal) */}
+            <button
+              onClick={() => setSearchModalOpen(true)}
+              className="p-2.5 text-gray-700 hover:text-emerald-900 hover:bg-emerald-50 rounded-xl transition-colors ml-1"
+              title="Global Search"
+            >
+              <Search className="w-5 h-5 text-emerald-700" />
+            </button>
+
             <button
               onClick={() => setTab('get-involved')}
               className="ml-2 flex items-center gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-all hover:shadow"
@@ -206,8 +247,15 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
             </button>
           </nav>
 
-          {/* Mobile Hamburger Toggle */}
+          {/* Mobile Hamburger Toggle & Search Icon */}
           <div className="flex items-center gap-2 lg:hidden">
+            <button
+              onClick={() => setSearchModalOpen(true)}
+              className="p-2 text-emerald-700 hover:bg-emerald-50 rounded-lg"
+              title="Search"
+            >
+              <Search className="w-5 h-5" />
+            </button>
             <button
               onClick={() => setTab('get-involved')}
               className="flex items-center gap-1 bg-emerald-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold"
@@ -224,51 +272,184 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
           </div>
         </div>
 
-        {/* Mobile Search & Menu Dropdown */}
+        {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-gray-200 px-4 pt-3 pb-5 shadow-lg space-y-3 animate-in fade-in duration-200">
-            <div className="relative">
-              <Search className="absolute left-3.5 top-3 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search website..."
-                className="w-full bg-gray-50 border border-gray-300 rounded-xl pl-10 pr-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-600"
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => {
-                    setTab(link.id);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    currentTab === link.id
-                      ? 'bg-emerald-600 text-white'
-                      : 'text-gray-700 hover:bg-emerald-50 hover:text-emerald-900'
-                  }`}
-                >
-                  {link.label}
-                </button>
-              ))}
+          <div className="lg:hidden bg-white border-b border-gray-200 px-4 pt-3 pb-5 shadow-lg space-y-2 animate-in fade-in duration-200">
+            {navLinks.map((link) => (
               <button
+                key={link.id}
                 onClick={() => {
-                  setTab('admin');
+                  setTab(link.id);
                   setMobileMenuOpen(false);
                 }}
-                className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 ${
-                  currentTab === 'admin' ? 'bg-emerald-800 text-white' : 'text-gray-600 hover:bg-gray-100'
+                className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  currentTab === link.id
+                    ? 'bg-emerald-600 text-white'
+                    : 'text-gray-700 hover:bg-emerald-50 hover:text-emerald-900'
                 }`}
               >
-                <Settings className="w-4 h-4" /> Admin Portal
+                {link.label}
+              </button>
+            ))}
+
+            {/* Mobile Mega Menu Links for Work */}
+            <div className="pl-4 border-l-2 border-emerald-200 space-y-1 my-1">
+              <button
+                onClick={() => { setTab('projects'); setMobileMenuOpen(false); }}
+                className="w-full text-left py-2 text-xs font-semibold text-emerald-900 hover:underline flex justify-between items-center"
+              >
+                <span>→ View Projects</span>
+                <span className="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[10px] font-bold">{projects.length}</span>
+              </button>
+              <button
+                onClick={() => { setTab('activities'); setMobileMenuOpen(false); }}
+                className="w-full text-left py-2 text-xs font-semibold text-emerald-900 hover:underline flex justify-between items-center"
+              >
+                <span>→ View Activities & News</span>
+                <span className="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[10px] font-bold">{activities.length}</span>
               </button>
             </div>
           </div>
         )}
       </header>
+
+      {/* Global Search Window Modal (Shows ONLY when search icon is clicked) */}
+      {searchModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-start justify-center pt-20 sm:pt-28 p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-5 border border-gray-200">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+              <div className="flex items-center gap-2">
+                <Search className="w-5 h-5 text-emerald-700" />
+                <h3 className="font-bold text-gray-900 text-lg">Search YWS Website</h3>
+              </div>
+              <button
+                onClick={() => setSearchModalOpen(false)}
+                className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-gray-100 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="relative">
+              <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Type to search projects, activities, pages..."
+                className="w-full bg-gray-50 border border-gray-300 rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 transition-all font-medium"
+                autoFocus
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-600 text-xs font-semibold bg-gray-200 px-2 py-1 rounded-lg"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            {/* Results */}
+            {searchQuery.trim() !== '' && (
+              <div className="space-y-2 max-h-72 overflow-y-auto">
+                <p className="text-xs text-gray-500 font-semibold px-1">
+                  Found {searchResults.length} results:
+                </p>
+                {searchResults.length === 0 ? (
+                  <div className="p-6 text-center text-sm text-gray-500 bg-gray-50 rounded-2xl">
+                    No results found for "{searchQuery}". Try searching for projects or activities.
+                  </div>
+                ) : (
+                  <div className="divide-y divide-gray-100">
+                    {searchResults.map((res, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setTab(res.tab);
+                          setSearchQuery('');
+                          setSearchModalOpen(false);
+                        }}
+                        className="w-full text-left p-3.5 hover:bg-emerald-50 rounded-xl transition-colors flex items-center justify-between text-sm group"
+                      >
+                        <div>
+                          <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded mr-2">
+                            {res.type}
+                          </span>
+                          <span className="font-semibold text-gray-800 group-hover:text-emerald-950">{res.title}</span>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-emerald-600 shrink-0 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Master Key PIN Modal for Admin Portal (Master key: 8686046) */}
+      {adminModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl space-y-6 text-center animate-in zoom-in-95 duration-200">
+            <div className="w-14 h-14 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto shadow-inner">
+              <Lock className="w-7 h-7" />
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-gray-900">Admin Portal Access</h3>
+              <p className="text-gray-600 text-xs mt-1">
+                Enter the Master Key to unlock the YWS Content Management Portal.
+              </p>
+            </div>
+
+            <form onSubmit={handleAdminKeySubmit} className="space-y-4">
+              <div className="relative">
+                <KeyRound className="absolute left-3.5 top-3.5 w-4 h-4 text-gray-400" />
+                <input
+                  type="password"
+                  value={masterKeyInput}
+                  onChange={(e) => {
+                    setMasterKeyInput(e.target.value);
+                    setMasterKeyError(false);
+                  }}
+                  placeholder="Enter Master Key"
+                  className="w-full bg-gray-50 border border-gray-300 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 tracking-widest text-center font-bold"
+                  autoFocus
+                  required
+                />
+              </div>
+
+              {masterKeyError && (
+                <p className="text-xs text-rose-600 font-semibold">
+                  Incorrect Master Key. Please try again.
+                </p>
+              )}
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAdminModalOpen(false);
+                    setMasterKeyInput('');
+                    setMasterKeyError(false);
+                  }}
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-xl text-xs transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-4 rounded-xl text-xs shadow transition-colors"
+                >
+                  Unlock Portal
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* App Installer Modal */}
       {installModalOpen && (

@@ -10,70 +10,78 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ setTab }) => {
   return (
     <div className="relative bg-emerald-950 text-white overflow-hidden">
-      {/* Absolute Dotted Pakistani Map Background including Full Kashmir, highlighting District Lodhran */}
-      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none flex items-center justify-end pr-8 sm:pr-20 overflow-hidden">
+      {/* Absolute White and Clear Dotted Pakistani Map Background including Full Kashmir, highlighting District Lodhran */}
+      <div className="absolute inset-0 z-0 opacity-30 pointer-events-none flex items-center justify-end pr-6 sm:pr-20 overflow-hidden">
         <svg
           viewBox="0 0 600 700"
-          className="w-full max-w-2xl h-full object-contain filter drop-shadow-lg"
+          className="w-full max-w-2xl h-full object-contain filter drop-shadow-md"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Northern Areas & Full Kashmir Region */}
-          <g fill="#10B981" opacity="0.6">
-            <circle cx="320" cy="80" r="3" />
-            <circle cx="340" cy="90" r="3" />
-            <circle cx="360" cy="100" r="3.5" />
-            <circle cx="380" cy="115" r="3" />
-            <circle cx="330" cy="110" r="3" />
-            <circle cx="350" cy="125" r="3" />
-            <circle cx="370" cy="135" r="3" />
-            <circle cx="390" cy="140" r="3" />
-            <circle cx="310" cy="130" r="3" />
-            <circle cx="330" cy="145" r="3.5" />
-            <circle cx="355" cy="155" r="3" />
-            <circle cx="375" cy="165" r="3" />
-            <circle cx="395" cy="180" r="3" />
+          {/* Northern Areas & Full Kashmir Region (White & Clear Dotted Map) */}
+          <g fill="#FFFFFF" opacity="0.65">
+            <circle cx="320" cy="70" r="3.5" />
+            <circle cx="340" cy="80" r="3.5" />
+            <circle cx="360" cy="90" r="4" />
+            <circle cx="380" cy="105" r="3.5" />
+            <circle cx="400" cy="120" r="3" />
+            <circle cx="330" cy="100" r="3.5" />
+            <circle cx="350" cy="115" r="3.5" />
+            <circle cx="370" cy="125" r="3.5" />
+            <circle cx="390" cy="135" r="3.5" />
+            <circle cx="310" cy="120" r="3.5" />
+            <circle cx="330" cy="135" r="4" />
+            <circle cx="355" cy="145" r="3.5" />
+            <circle cx="375" cy="155" r="3.5" />
+            <circle cx="395" cy="170" r="3.5" />
           </g>
 
-          {/* Punjab & Sindh & Balochistan & KPK Grid of Dots */}
-          <g fill="#059669" opacity="0.4">
-            <circle cx="280" cy="160" r="3" />
-            <circle cx="300" cy="175" r="3" />
-            <circle cx="325" cy="185" r="3" />
-            <circle cx="350" cy="195" r="3" />
-            <circle cx="335" cy="215" r="3" />
-            <circle cx="310" cy="225" r="3" />
-            <circle cx="285" cy="210" r="3" />
-            <circle cx="260" cy="195" r="3" />
+          {/* Pakistan Map Grid of Dots (White & Clear) */}
+          <g fill="#FFFFFF" opacity="0.45">
+            {/* KPK & Northern Punjab */}
+            <circle cx="280" cy="150" r="3.5" />
+            <circle cx="300" cy="165" r="3.5" />
+            <circle cx="325" cy="175" r="3.5" />
+            <circle cx="350" cy="185" r="3.5" />
+            <circle cx="335" cy="205" r="3.5" />
+            <circle cx="310" cy="215" r="3.5" />
+            <circle cx="285" cy="200" r="3.5" />
+            <circle cx="260" cy="185" r="3.5" />
             
-            <circle cx="295" cy="250" r="3.5" />
-            <circle cx="320" cy="260" r="3.5" />
-            <circle cx="345" cy="275" r="3" />
-            <circle cx="270" cy="245" r="3" />
-            <circle cx="250" cy="230" r="3" />
+            <circle cx="295" cy="240" r="4" />
+            <circle cx="320" cy="250" r="4" />
+            <circle cx="345" cy="265" r="3.5" />
+            <circle cx="270" cy="235" r="3.5" />
+            <circle cx="250" cy="220" r="3.5" />
 
             {/* Central Punjab Region */}
-            <circle cx="280" cy="285" r="3" />
-            <circle cx="305" cy="295" r="3.5" />
-            <circle cx="330" cy="310" r="3" />
+            <circle cx="280" cy="275" r="3.5" />
+            <circle cx="305" cy="285" r="4" />
+            <circle cx="330" cy="300" r="3.5" />
 
-            {/* Lodhran / Multan Region (Highlighted) */}
-            <g transform="translate(290, 335)">
-              <circle cx="0" cy="0" r="14" fill="#10B981" opacity="0.3" className="animate-ping" />
-              <circle cx="0" cy="0" r="8" fill="#34D399" className="animate-pulse" />
-              <circle cx="0" cy="0" r="4" fill="#FFFFFF" />
+            {/* District Lodhran / Dhanot Region (Highlighted with glowing green & gold beacon) */}
+            <g transform="translate(295, 328)">
+              <circle cx="0" cy="0" r="18" fill="#10B981" opacity="0.4" className="animate-ping" />
+              <circle cx="0" cy="0" r="10" fill="#34D399" className="animate-pulse" />
+              <circle cx="0" cy="0" r="5" fill="#F59E0B" />
+              <text x="16" y="4" fill="#FFFFFF" fontSize="11" fontWeight="bold" fontFamily="sans-serif" filter="drop-shadow(0px 1px 2px rgba(0,0,0,0.8))">
+                District Lodhran (YWS)
+              </text>
             </g>
 
             {/* Sindh & Balochistan */}
-            <circle cx="240" cy="320" r="3" />
-            <circle cx="220" cy="300" r="3" />
-            <circle cx="190" cy="290" r="3" />
-            <circle cx="160" cy="280" r="3" />
-            <circle cx="210" cy="350" r="3" />
-            <circle cx="235" cy="375" r="3" />
-            <circle cx="260" cy="400" r="3" />
-            <circle cx="225" cy="425" r="3" />
-            <circle cx="200" cy="450" r="3" />
+            <circle cx="240" cy="310" r="3.5" />
+            <circle cx="220" cy="290" r="3.5" />
+            <circle cx="190" cy="280" r="3.5" />
+            <circle cx="160" cy="270" r="3.5" />
+            <circle cx="130" cy="260" r="3.5" />
+            <circle cx="210" cy="340" r="3.5" />
+            <circle cx="235" cy="365" r="3.5" />
+            <circle cx="260" cy="390" r="3.5" />
+            <circle cx="225" cy="415" r="3.5" />
+            <circle cx="200" cy="440" r="3.5" />
+            <circle cx="170" cy="420" r="3.5" />
+            <circle cx="140" cy="390" r="3.5" />
           </g>
         </svg>
       </div>
