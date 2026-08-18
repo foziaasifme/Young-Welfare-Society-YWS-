@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageTab } from '../types';
-import { Heart, Users, Sparkles, ShieldCheck, ArrowRight, Calendar, MapPin } from 'lucide-react';
+import { Heart, Sparkles, ShieldCheck, ArrowRight, HelpCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface HeroProps {
@@ -9,198 +9,95 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ setTab }) => {
   return (
-    <div className="relative bg-emerald-950 text-white overflow-hidden">
-      {/* Absolute White and Clear Dotted Pakistani Map Background including Full Kashmir, highlighting District Lodhran */}
-      <div className="absolute inset-0 z-0 opacity-80 pointer-events-none flex items-center justify-end pr-4 sm:pr-16 overflow-hidden">
-        <svg
-          viewBox="0 0 600 700"
-          className="w-full max-w-2xl h-full object-contain filter drop-shadow-md"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+    <div className="relative text-white overflow-hidden min-h-[85vh] flex items-center justify-center">
+      {/* Background Image of Caring Community Hands */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=2000')`, // Heartwarming holding hands/community theme
+        }}
+      />
+      
+      {/* Immersive Deep Emerald / Teal Vignette Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/80 via-emerald-950/75 to-emerald-950/90 z-0" />
+
+      {/* Decorative Golden Ambient Blur */}
+      <div className="absolute -left-12 top-1/4 w-80 h-80 bg-yellow-500 rounded-full filter blur-3xl opacity-15 pointer-events-none z-0"></div>
+      <div className="absolute -right-12 bottom-1/4 w-96 h-96 bg-emerald-500 rounded-full filter blur-3xl opacity-20 pointer-events-none z-0"></div>
+
+      <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 py-20 sm:py-28 text-center space-y-8">
+        
+        {/* Verification Pill */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 bg-emerald-900/60 backdrop-blur-md border border-emerald-500/30 px-4 py-2 rounded-full text-emerald-200 text-xs sm:text-sm font-semibold tracking-wide shadow-lg"
         >
-          {/* Northern Areas & Full Kashmir Region (White & Clear Dotted Map) */}
-          <g fill="#FFFFFF" opacity="0.95">
-            <circle cx="320" cy="70" r="4.5" />
-            <circle cx="340" cy="80" r="4.5" />
-            <circle cx="360" cy="90" r="5" />
-            <circle cx="380" cy="105" r="4.5" />
-            <circle cx="400" cy="120" r="4" />
-            <circle cx="330" cy="100" r="4.5" />
-            <circle cx="350" cy="115" r="4.5" />
-            <circle cx="370" cy="125" r="4.5" />
-            <circle cx="390" cy="135" r="4.5" />
-            <circle cx="310" cy="120" r="4.5" />
-            <circle cx="330" cy="135" r="5" />
-            <circle cx="355" cy="145" r="4.5" />
-            <circle cx="375" cy="155" r="4.5" />
-            <circle cx="395" cy="170" r="4.5" />
-          </g>
+          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <span>Reg. 16 Feb 1995 (Social Welfare Dept) • Dhanot, Lodhran</span>
+        </motion.div>
 
-          {/* Pakistan Map Grid of Dots (White & Clear) */}
-          <g fill="#FFFFFF" opacity="0.85">
-            {/* KPK & Northern Punjab */}
-            <circle cx="280" cy="150" r="4.5" />
-            <circle cx="300" cy="165" r="4.5" />
-            <circle cx="325" cy="175" r="4.5" />
-            <circle cx="350" cy="185" r="4.5" />
-            <circle cx="335" cy="205" r="4.5" />
-            <circle cx="310" cy="215" r="4.5" />
-            <circle cx="285" cy="200" r="4.5" />
-            <circle cx="260" cy="185" r="4.5" />
-            
-            <circle cx="295" cy="240" r="5" />
-            <circle cx="320" cy="250" r="5" />
-            <circle cx="345" cy="265" r="4.5" />
-            <circle cx="270" cy="235" r="4.5" />
-            <circle cx="250" cy="220" r="4.5" />
-
-            {/* Central Punjab Region */}
-            <circle cx="280" cy="275" r="4.5" />
-            <circle cx="305" cy="285" r="5" />
-            <circle cx="330" cy="300" r="4.5" />
-
-            {/* District Lodhran / Dhanot Region (Highlighted with glowing green & gold beacon) */}
-            <g transform="translate(295, 328)">
-              <circle cx="0" cy="0" r="22" fill="#10B981" opacity="0.6" className="animate-ping" />
-              <circle cx="0" cy="0" r="12" fill="#34D399" className="animate-pulse" />
-              <circle cx="0" cy="0" r="6" fill="#F59E0B" />
-              <text x="18" y="4" fill="#FFFFFF" fontSize="12" fontWeight="bold" fontFamily="sans-serif" filter="drop-shadow(0px 1px 3px rgba(0,0,0,0.9))">
-                District Lodhran (YWS HQ)
-              </text>
-            </g>
-
-            {/* Sindh & Balochistan */}
-            <circle cx="240" cy="310" r="4.5" />
-            <circle cx="220" cy="290" r="4.5" />
-            <circle cx="190" cy="280" r="4.5" />
-            <circle cx="160" cy="270" r="4.5" />
-            <circle cx="130" cy="260" r="4.5" />
-            <circle cx="210" cy="340" r="4.5" />
-            <circle cx="235" cy="365" r="4.5" />
-            <circle cx="260" cy="390" r="4.5" />
-            <circle cx="225" cy="415" r="4.5" />
-            <circle cx="200" cy="440" r="4.5" />
-            <circle cx="170" cy="420" r="4.5" />
-            <circle cx="140" cy="390" r="4.5" />
-          </g>
-        </svg>
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-20 sm:py-28 lg:py-36 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
+        {/* Master Heading inspired by attached layout */}
+        <div className="space-y-3">
+          <motion.h1 
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-emerald-900 border border-emerald-700 px-3.5 py-1.5 rounded-full text-emerald-200 text-xs sm:text-sm font-medium shadow-sm"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-none text-white drop-shadow-md"
+            style={{ fontFamily: "'Playfair Display', serif, system-ui" }}
           >
-            <ShieldCheck className="w-4 h-4 text-emerald-300" />
-            <span>Community • Youth • Welfare • District Lodhran, Punjab • Since 1992</span>
-          </motion.div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            Building Stronger Communities, <span className="text-emerald-300">Empowering Youth</span>
-          </h1>
-
-          <p className="text-base sm:text-lg text-emerald-100 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-            Young Welfare Society has been working for community welfare and social development since 1992, serving communities in Dhanot, District Lodhran, Punjab, and beyond with unwavering commitment.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-            <button
-              onClick={() => setTab('about')}
-              className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group"
-            >
-              <span>Learn About YWS</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button
-              onClick={() => setTab('get-involved')}
-              className="w-full sm:w-auto bg-emerald-900 hover:bg-emerald-800 border border-emerald-700 text-emerald-100 font-semibold px-7 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2"
-            >
-              <Heart className="w-4 h-4 fill-current text-rose-300" />
-              <span>Get Involved</span>
-            </button>
-          </div>
-
-          <div className="pt-6 border-t border-emerald-800 grid grid-cols-3 gap-4 text-center lg:text-left">
-            <div>
-              <p className="text-2xl sm:text-3xl font-bold text-white">30+</p>
-              <p className="text-xs sm:text-sm text-emerald-300">Years of Service</p>
-            </div>
-            <div>
-              <p className="text-2xl sm:text-3xl font-bold text-white">1995</p>
-              <p className="text-xs sm:text-sm text-emerald-300">Officially Registered</p>
-            </div>
-            <div>
-              <div className="inline-flex items-center gap-1 justify-center lg:justify-start">
-                <MapPin className="w-4 h-4 text-emerald-400" />
-                <span className="text-2xl sm:text-3xl font-bold text-white">Lodhran</span>
-              </div>
-              <p className="text-xs sm:text-sm text-emerald-300">District HQ / Dhanot</p>
-            </div>
-          </div>
+            Your Welfare,<br />
+            <span className="text-yellow-400 font-black relative">
+              Our Mission
+              {/* Subtle underline wave */}
+              <span className="absolute left-0 right-0 bottom-[-8px] h-2 bg-yellow-400 rounded-full opacity-40"></span>
+            </span>
+          </motion.h1>
         </div>
 
-        {/* Right column: Visual card featuring official YWS logo and credibility */}
-        <div className="lg:col-span-5 flex justify-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full max-w-md bg-emerald-900 border border-emerald-700 p-6 sm:p-8 rounded-2xl shadow-2xl space-y-6"
+        {/* Supporting description */}
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-base sm:text-lg md:text-xl text-emerald-100/90 max-w-3xl mx-auto leading-relaxed font-light"
+        >
+          At Young Welfare Society (YWS), your journey is our mission: empowering individuals, providing clean drinking water, enabling education, supporting widows, and organizing free medical camps across rural Punjab with absolute transparency since 1992.
+        </motion.p>
+
+        {/* Centered Yellow Call-to-Action Pill matching the prompt style */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+        >
+          <button
+            onClick={() => {
+              const el = document.getElementById('heart-of-work');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-emerald-950 font-bold px-8 py-4 rounded-full shadow-xl hover:shadow-yellow-500/20 transition-all flex items-center justify-center gap-2 text-base tracking-wider uppercase"
           >
-            <div className="absolute -top-4 -right-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
-              Official YWS • District Lodhran
-            </div>
+            <span>Our Mission</span>
+            <span className="bg-yellow-600/30 text-emerald-950 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold font-mono">
+              +
+            </span>
+          </button>
 
-            <div className="flex items-center gap-4">
-              <img
-                src="https://scontent.flhe6-1.fna.fbcdn.net/v/t39.30808-6/307522632_460965826068810_7436339115934143457_n.jpg?stp=dst-jpg_tt6&cstp=mx1112x1112&ctp=s1112x1112&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=3gjekZfhkc4Q7kNvwEbybSr&_nc_oc=Adr7TsI1Q2HmEUUfzTO6TIdKNovVFJLGb1VUmJ3jbZjE7Kg7PRJ-igDbFxiRX5_QWTE&_nc_zt=23&_nc_ht=scontent.flhe6-1.fna&_nc_gid=HCsxZewAkE1Ii4JDXmKnOA&_nc_ss=7a289&oh=00_AQHxw37gFYn2Id2tD5Ws5jdHKqcMr-ELZz9fdgO6n7n12A&oe=6A89B8E7"
-                alt="Young Welfare Society Logo"
-                className="w-20 h-20 rounded-full object-cover border-4 border-emerald-500 shadow-md"
-                referrerPolicy="no-referrer"
-              />
-              <div>
-                <h3 className="text-xl font-bold text-white">Young Welfare Society</h3>
-                <p className="text-xs text-emerald-300 font-medium">Non-Profit • Non-Governmental • Non-Political</p>
-                <div className="flex items-center gap-1.5 mt-1 text-xs text-emerald-200">
-                  <Calendar className="w-3.5 h-3.5 text-emerald-300" />
-                  <span>Reg. 16 February 1995</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-3 bg-emerald-950 p-4 rounded-xl border border-emerald-800 text-sm text-emerald-100">
-              <p className="leading-relaxed">
-                "Working tirelessly toward community welfare, youth empowerment, and educational upliftment in Dhanot, District Lodhran since 1992."
-              </p>
-              <div className="flex items-center justify-between text-xs text-emerald-300 pt-2 border-t border-emerald-800">
-                <span>Social Welfare Dept, Ordinance XLVI of 1961</span>
-                <span className="font-semibold text-white">Verified NGO</span>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setTab('projects')}
-              className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-xl transition-colors text-sm shadow flex items-center justify-center gap-2"
-            >
-              <span>Explore Our Welfare Projects</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-
-            <a
-              href="https://maps.google.com/?q=Dhanot+Lodhran+Punjab+Pakistan"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full bg-emerald-950 hover:bg-emerald-900 border border-emerald-700 text-emerald-200 font-semibold py-2.5 px-4 rounded-xl transition-colors text-xs flex items-center justify-center gap-2"
-            >
-              <MapPin className="w-4 h-4 text-emerald-400" />
-              <span>View HQ Location on Google Maps (Dhanot, Lodhran)</span>
-            </a>
-          </motion.div>
-        </div>
+          <button
+            onClick={() => setTab('get-involved')}
+            className="w-full sm:w-auto bg-emerald-800/40 hover:bg-emerald-800/60 backdrop-blur-md text-emerald-100 border border-emerald-400/30 font-semibold px-8 py-4 rounded-full transition-all flex items-center justify-center gap-2 text-base"
+          >
+            <span>Become a Volunteer</span>
+            <ArrowRight className="w-4 h-4 text-emerald-400" />
+          </button>
+        </motion.div>
       </div>
+
+      {/* Decorative Curved Bottom Edge Section */}
+      <div className="absolute bottom-0 left-0 right-0 h-12 bg-white rounded-t-[40px] z-10"></div>
     </div>
   );
 };

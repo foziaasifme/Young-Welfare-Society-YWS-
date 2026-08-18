@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PageTab } from '../types';
-import { Smartphone, Download, Check, Copy, ExternalLink, ShieldCheck, Zap, Globe, ArrowRight, Sparkles, Monitor, Phone, HelpCircle } from 'lucide-react';
+import { Smartphone, Download, Check, Copy, ExternalLink, ShieldCheck, Zap, Globe, ArrowRight, Sparkles, Monitor, Phone, Share2, MessageCircle, QrCode } from 'lucide-react';
 
 interface InstallAppPageProps {
   setTab: (tab: PageTab) => void;
@@ -12,8 +12,10 @@ export const InstallAppPage: React.FC<InstallAppPageProps> = ({ setTab }) => {
   const [copied, setCopied] = useState(false);
   const [activeTabOS, setActiveTabOS] = useState<'android' | 'ios' | 'desktop'>('android');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [clientCategory, setClientCategory] = useState<'general' | 'volunteer' | 'donor' | 'partner'>('general');
 
-  const installAppUrl = 'https://youngwelfare.vercel.app/installapp';
+  const baseUrl = 'https://youngwelfare.vercel.app/installapp';
+  const generatedClientUrl = `${baseUrl}?ref=${clientCategory}`;
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
@@ -46,16 +48,20 @@ export const InstallAppPage: React.FC<InstallAppPageProps> = ({ setTab }) => {
         console.error(err);
       }
     } else {
-      // Guaranteed interactive success confirmation & guidance
       setIsInstalled(true);
       setShowSuccessModal(true);
     }
   };
 
-  const copyLink = () => {
-    navigator.clipboard.writeText(installAppUrl);
+  const copyLink = (textToCopy: string) => {
+    navigator.clipboard.writeText(textToCopy);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
+  };
+
+  const shareViaWhatsApp = () => {
+    const message = encodeURIComponent(`Install Young Welfare Society official client app for ${clientCategory}s: ${generatedClientUrl}`);
+    window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
   };
 
   return (
@@ -123,30 +129,65 @@ export const InstallAppPage: React.FC<InstallAppPageProps> = ({ setTab }) => {
           </div>
         </div>
 
-        {/* Shareable Client Link Card */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-emerald-100 space-y-4">
-          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <Globe className="w-5 h-5 text-emerald-700" />
-            <span>Shareable Client App Link</span>
-          </h2>
-          <p className="text-gray-600 text-sm">
-            Share this dedicated PWA installation link with clients, volunteers, and community members:
-          </p>
+        {/* Client Link Generator Card */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-emerald-100 space-y-6">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <Globe className="w-5 h-5 text-emerald-700" />
+                <span>Generate & Share Client Install Link</span>
+              </h2>
+              <p className="text-gray-600 text-sm">
+                Create tailored installation links for donors, volunteers, partners, and community clients:
+              </p>
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 border border-gray-200 p-3.5 rounded-2xl">
-            <input
-              type="text"
-              readOnly
-              value={installAppUrl}
-              className="w-full bg-transparent text-emerald-950 font-mono text-sm px-2 focus:outline-none"
-            />
-            <button
-              onClick={copyLink}
-              className="w-full sm:w-auto bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-xl font-semibold text-xs transition-colors flex items-center justify-center gap-2 shrink-0 shadow"
-            >
-              {copied ? <Check className="w-4 h-4 text-emerald-300" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? 'Copied Link!' : 'Copy Link'}</span>
-            </button>
+            {/* Category Selector */}
+            <div className="flex bg-gray-100 p-1.5 rounded-2xl text-xs font-semibold gap-1">
+              {(['general', 'volunteer', 'donor', 'partner'] as const).map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setClientCategory(cat)}
+                  className={`px-3.5 py-2 rounded-xl capitalize transition-all ${clientCategory === cat ? 'bg-emerald-700 text-white shadow' : 'text-gray-700 hover:text-gray-900'}`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl space-y-3">
+            <label className="text-xs font-bold text-emerald-900 uppercase tracking-wider block">
+              Generated Install Link ({clientCategory.toUpperCase()} Client Channel):
+            </label>
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <input
+                type="text"
+                readOnly
+                value={generatedClientUrl}
+                className="w-full bg-white border border-emerald-300 text-emerald-950 font-mono text-sm px-3.5 py-2.5 rounded-xl focus:outline-none shadow-sm"
+              />
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <button
+                  onClick={() => copyLink(generatedClientUrl)}
+                  className="flex-1 sm:flex-none bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-xl font-semibold text-xs transition-colors flex items-center justify-center gap-2 shadow"
+                >
+                  {copied ? <Check className="w-4 h-4 text-emerald-300" /> : <Copy className="w-4 h-4" />}
+                  <span>{copied ? 'Copied!' : 'Copy Link'}</span>
+                </button>
+                <button
+                  onClick={shareViaWhatsApp}
+                  className="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl font-semibold text-xs transition-colors flex items-center justify-center gap-2 shadow"
+                  title="Share via WhatsApp"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>WhatsApp</span>
+                </button>
+              </div>
+            </div>
+            <p className="text-xs text-emerald-800 italic">
+              💡 Clients clicking this link on mobile or desktop will be instantly directed to this PWA installation guide.
+            </p>
           </div>
         </div>
 
