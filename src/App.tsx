@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { PageTab, Project, ActivityItem, GalleryImage, VolunteerSubmission, ContactMessage, OrgInfo } from './types';
-import { initialOrgInfo, initialProjects, initialActivities, initialGallery } from './data/mockData';
+import { PageTab, Project, ActivityItem, GalleryImage, VolunteerSubmission, ContactMessage, OrgInfo, NewsletterSubscriber, FAQItem } from './types';
+import { initialOrgInfo, initialProjects, initialActivities, initialGallery, initialFAQs } from './data/mockData';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { Hero } from './components/Hero';
@@ -11,14 +11,18 @@ import { ImpactStats } from './components/ImpactStats';
 import { ProjectsSection } from './components/ProjectsSection';
 import { ActivitiesSection } from './components/ActivitiesSection';
 import { GallerySection } from './components/GallerySection';
+import { FacebookFeedSection } from './components/FacebookFeedSection';
 import { GetInvolvedSection } from './components/GetInvolvedSection';
 import { ContactSection } from './components/ContactSection';
 import { AboutPage } from './components/AboutPage';
 import { ProjectsPage } from './components/ProjectsPage';
 import { ActivitiesPage } from './components/ActivitiesPage';
 import { GalleryPage } from './components/GalleryPage';
+import { FAQPage } from './components/FAQPage';
 import { AdminPanel } from './components/AdminPanel';
-import { ArrowRight, CheckCircle2, ShieldCheck, Heart, Sparkles } from 'lucide-react';
+import { WhatsAppChatbotWidget } from './components/WhatsAppChatbotWidget';
+import { Heart } from 'lucide-react';
+
 
 export default function App() {
   const [currentTab, setTab] = useState<PageTab>('home');
@@ -40,6 +44,7 @@ export default function App() {
   });
 
   const [gallery] = useState<GalleryImage[]>(initialGallery);
+  const [faqs] = useState<FAQItem[]>(initialFAQs);
 
   const [volunteers, setVolunteers] = useState<VolunteerSubmission[]>(() => {
     const saved = localStorage.getItem('yws_volunteers');
@@ -48,6 +53,11 @@ export default function App() {
 
   const [messages, setMessages] = useState<ContactMessage[]>(() => {
     const saved = localStorage.getItem('yws_messages');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [subscribers, setSubscribers] = useState<NewsletterSubscriber[]>(() => {
+    const saved = localStorage.getItem('yws_subscribers');
     return saved ? JSON.parse(saved) : [];
   });
 
@@ -72,6 +82,10 @@ export default function App() {
     localStorage.setItem('yws_messages', JSON.stringify(messages));
   }, [messages]);
 
+  useEffect(() => {
+    localStorage.setItem('yws_subscribers', JSON.stringify(subscribers));
+  }, [subscribers]);
+
   // Scroll to top on tab change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -95,9 +109,18 @@ export default function App() {
     setMessages([newMsg, ...messages]);
   };
 
+  const handleAddSubscriber = (email: string) => {
+    const newSub: NewsletterSubscriber = {
+      id: `sub-${Date.now()}`,
+      email,
+      subscribedAt: new Date().toLocaleDateString()
+    };
+    setSubscribers([newSub, ...subscribers]);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900 font-sans selection:bg-emerald-600 selection:text-white">
-      <Navbar currentTab={currentTab} setTab={setTab} orgInfo={orgInfo} />
+      <Navbar currentTab={currentTab} setTab={setTab} orgInfo={orgInfo} projects={projects} activities={activities} />
 
       <main className="flex-grow">
         {currentTab === 'home' && (
@@ -109,6 +132,7 @@ export default function App() {
             <ImpactStats />
             <ProjectsSection projects={projects} setTab={setTab} />
             <ActivitiesSection activities={activities} setTab={setTab} />
+            <FacebookFeedSection />
             <GallerySection gallery={gallery} setTab={setTab} />
 
             {/* CTA Banner */}
@@ -170,6 +194,8 @@ export default function App() {
 
         {currentTab === 'gallery' && <GalleryPage gallery={gallery} />}
 
+        {currentTab === 'faq' && <FAQPage faqs={faqs} />}
+
         {currentTab === 'get-involved' && <GetInvolvedSection onAddVolunteer={handleAddVolunteer} />}
 
         {currentTab === 'contact' && <ContactSection orgInfo={orgInfo} onAddMessage={handleAddMessage} />}
@@ -184,11 +210,19 @@ export default function App() {
             setActivities={setActivities}
             volunteers={volunteers}
             messages={messages}
+            subscribers={subscribers}
           />
         )}
       </main>
 
-      <Footer setTab={setTab} orgInfo={orgInfo} />
+      <Footer setTab={setTab} orgInfo={orgInfo} onAddSubscriber={handleAddSubscriber} />
+      <WhatsAppChatbotWidget
+        orgInfo={orgInfo}
+        projects={projects}
+        activities={activities}
+        faqs={faqs}
+        onNewVolunteer={handleAddVolunteer}
+      />
     </div>
   );
 }

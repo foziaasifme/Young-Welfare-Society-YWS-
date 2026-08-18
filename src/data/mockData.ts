@@ -1,4 +1,4 @@
-import { Project, ActivityItem, GalleryImage, OrgInfo } from '../types';
+import { Project, ActivityItem, GalleryImage, OrgInfo, FAQItem } from '../types';
 
 export const initialOrgInfo: OrgInfo = {
   name: "Young Welfare Society (YWS)",
@@ -170,5 +170,38 @@ export const initialGallery: GalleryImage[] = [
     url: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1000",
     caption: "Serving families with dignity during community welfare distribution.",
     date: "April 2026"
+  }
+];
+
+export const initialFAQs: FAQItem[] = [
+  {
+    id: "faq-1",
+    question: "When was Young Welfare Society (YWS) established and registered?",
+    answer: "YWS began its community service work in 1992 in Dhanot, Punjab, and was officially registered on February 16, 1995, under the Social Welfare Department, Ordinance XLVI of 1961, Government of Punjab, Pakistan.",
+    category: "Registration"
+  },
+  {
+    id: "faq-2",
+    question: "How can I become a volunteer or member of YWS?",
+    answer: "You can easily join our volunteer network by visiting the 'Get Involved' page on our website and filling out the Volunteer Registration Form. Our team will get in touch with you regarding upcoming community activities and orientation.",
+    category: "Membership & Volunteering"
+  },
+  {
+    id: "faq-3",
+    question: "How are donations and community support utilized?",
+    answer: "As a registered non-profit and non-political organization, YWS ensures that 100% of community contributions and support are transparently utilized for educational drives, youth vocational programs, and seasonal welfare relief camps.",
+    category: "Donations & Support"
+  },
+  {
+    id: "faq-4",
+    question: "Where is YWS located and how can we contact the office?",
+    answer: "Our main office is located in Dhanot, Punjab, Pakistan. You can contact us via phone at +92 300 8686046 / +92 300 8885072 or email us at yws.lodhran@gmail.com.",
+    category: "General"
+  },
+  {
+    id: "faq-5",
+    question: "Does YWS collaborate with other organizations or institutions?",
+    answer: "Yes! YWS actively collaborates with educational institutions, youth societies, and fellow community welfare organizations to maximize social impact and educational outreach across Punjab.",
+    category: "General"
   }
 ];

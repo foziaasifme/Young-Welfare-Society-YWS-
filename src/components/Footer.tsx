@@ -1,13 +1,28 @@
-import React from 'react';
-import { PageTab, OrgInfo } from '../types';
-import { Phone, Mail, MapPin, Facebook, Heart, ShieldCheck, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { PageTab, OrgInfo, NewsletterSubscriber } from '../types';
+import { Phone, Mail, MapPin, Facebook, Heart, ShieldCheck, ChevronRight, Send, CheckCircle2 } from 'lucide-react';
 
 interface FooterProps {
   setTab: (tab: PageTab) => void;
   orgInfo: OrgInfo;
+  onAddSubscriber: (email: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo }) => {
+export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo, onAddSubscriber }) => {
+  const [emailInput, setEmailInput] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!emailInput || !emailInput.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    onAddSubscriber(emailInput);
+    setSubscribed(true);
+    setEmailInput('');
+  };
+
   return (
     <footer className="bg-emerald-950 text-emerald-100 pt-16 pb-12 border-t-4 border-emerald-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -38,7 +53,7 @@ export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo }) => {
             >
               <Facebook className="w-4 h-4" />
             </a>
-            <span className="text-xs bg-emerald-900/80 text-emerald-300 px-2.5 py-1 rounded-full font-medium flex items-center gap-1">
+            <span className="text-xs bg-emerald-900 text-emerald-300 px-2.5 py-1 rounded-full font-medium flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5" /> Non-Profit & Non-Political
             </span>
           </div>
@@ -69,8 +84,8 @@ export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo }) => {
               </button>
             </li>
             <li>
-              <button onClick={() => setTab('activities')} className="hover:text-white flex items-center gap-1.5 transition-colors">
-                <ChevronRight className="w-3.5 h-3.5 text-emerald-400" /> Activities & News
+              <button onClick={() => setTab('faq')} className="hover:text-white flex items-center gap-1.5 transition-colors">
+                <ChevronRight className="w-3.5 h-3.5 text-emerald-400" /> Frequently Asked Questions (FAQ)
               </button>
             </li>
           </ul>
@@ -91,11 +106,6 @@ export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo }) => {
               </button>
             </li>
             <li>
-              <button onClick={() => setTab('get-involved')} className="hover:text-white flex items-center gap-1.5 transition-colors">
-                <ChevronRight className="w-3.5 h-3.5 text-emerald-400" /> Partner With Us
-              </button>
-            </li>
-            <li>
               <button onClick={() => setTab('gallery')} className="hover:text-white flex items-center gap-1.5 transition-colors">
                 <ChevronRight className="w-3.5 h-3.5 text-emerald-400" /> Photo Gallery
               </button>
@@ -108,34 +118,41 @@ export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo }) => {
           </ul>
         </div>
 
-        {/* Col 4: Contact Info */}
+        {/* Col 4: Newsletter Signup & Contact Info */}
         <div className="space-y-4">
-          <h4 className="text-white font-semibold text-base border-b border-emerald-800 pb-2">Contact YWS</h4>
-          <ul className="space-y-3 text-sm">
-            <li className="flex items-start gap-2.5">
-              <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-1" />
-              <span>{orgInfo.address}</span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-              <a href={`tel:${orgInfo.phonePrimary}`} className="hover:text-white transition-colors">
-                {orgInfo.phonePrimary} / {orgInfo.phoneSecondary}
-              </a>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
-              <a href={`mailto:${orgInfo.email}`} className="hover:text-white transition-colors">
-                {orgInfo.email}
-              </a>
-            </li>
-          </ul>
-          <div className="pt-2">
-            <button
-              onClick={() => setTab('get-involved')}
-              className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 shadow"
-            >
-              <Heart className="w-4 h-4 fill-current text-rose-200" /> Support Community Welfare
-            </button>
+          <h4 className="text-white font-semibold text-base border-b border-emerald-800 pb-2">Newsletter Signup</h4>
+          <p className="text-xs text-emerald-200">
+            Subscribe to receive updates on YWS welfare projects, community events, and activities.
+          </p>
+
+          {subscribed ? (
+            <div className="bg-emerald-900 border border-emerald-700 p-3.5 rounded-xl text-xs text-emerald-200 flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Thank you for subscribing to YWS updates!</span>
+            </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="space-y-2">
+              <input
+                type="email"
+                required
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                placeholder="Enter your email address..."
+                className="w-full bg-emerald-900 border border-emerald-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+              <button
+                type="submit"
+                className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 shadow"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>Subscribe for Updates</span>
+              </button>
+            </form>
+          )}
+
+          <div className="pt-2 text-xs text-emerald-300 space-y-1">
+            <p className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> {orgInfo.address}</p>
+            <p className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> {orgInfo.phonePrimary}</p>
           </div>
         </div>
       </div>

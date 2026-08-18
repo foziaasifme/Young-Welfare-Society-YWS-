@@ -1,6 +1,7 @@
 import React from 'react';
 import { PageTab } from '../types';
-import { Heart, Users, Sparkles, ShieldCheck, ArrowRight, Calendar } from 'lucide-react';
+import { Heart, Users, Sparkles, ShieldCheck, ArrowRight, Calendar, MapPin } from 'lucide-react';
+import { motion } from 'motion/react';
 
 interface HeroProps {
   setTab: (tab: PageTab) => void;
@@ -8,22 +9,95 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ setTab }) => {
   return (
-    <div className="relative bg-emerald-950 text-white overflow-hidden hero-pattern">
-      <div className="absolute inset-0 bg-emerald-950 opacity-90 z-0"></div>
+    <div className="relative bg-emerald-950 text-white overflow-hidden">
+      {/* Absolute Dotted Pakistani Map Background including Full Kashmir, highlighting District Lodhran */}
+      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none flex items-center justify-end pr-8 sm:pr-20 overflow-hidden">
+        <svg
+          viewBox="0 0 600 700"
+          className="w-full max-w-2xl h-full object-contain filter drop-shadow-lg"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Northern Areas & Full Kashmir Region */}
+          <g fill="#10B981" opacity="0.6">
+            <circle cx="320" cy="80" r="3" />
+            <circle cx="340" cy="90" r="3" />
+            <circle cx="360" cy="100" r="3.5" />
+            <circle cx="380" cy="115" r="3" />
+            <circle cx="330" cy="110" r="3" />
+            <circle cx="350" cy="125" r="3" />
+            <circle cx="370" cy="135" r="3" />
+            <circle cx="390" cy="140" r="3" />
+            <circle cx="310" cy="130" r="3" />
+            <circle cx="330" cy="145" r="3.5" />
+            <circle cx="355" cy="155" r="3" />
+            <circle cx="375" cy="165" r="3" />
+            <circle cx="395" cy="180" r="3" />
+          </g>
+
+          {/* Punjab & Sindh & Balochistan & KPK Grid of Dots */}
+          <g fill="#059669" opacity="0.4">
+            <circle cx="280" cy="160" r="3" />
+            <circle cx="300" cy="175" r="3" />
+            <circle cx="325" cy="185" r="3" />
+            <circle cx="350" cy="195" r="3" />
+            <circle cx="335" cy="215" r="3" />
+            <circle cx="310" cy="225" r="3" />
+            <circle cx="285" cy="210" r="3" />
+            <circle cx="260" cy="195" r="3" />
+            
+            <circle cx="295" cy="250" r="3.5" />
+            <circle cx="320" cy="260" r="3.5" />
+            <circle cx="345" cy="275" r="3" />
+            <circle cx="270" cy="245" r="3" />
+            <circle cx="250" cy="230" r="3" />
+
+            {/* Central Punjab Region */}
+            <circle cx="280" cy="285" r="3" />
+            <circle cx="305" cy="295" r="3.5" />
+            <circle cx="330" cy="310" r="3" />
+
+            {/* Lodhran / Multan Region (Highlighted) */}
+            <g transform="translate(290, 335)">
+              <circle cx="0" cy="0" r="14" fill="#10B981" opacity="0.3" className="animate-ping" />
+              <circle cx="0" cy="0" r="8" fill="#34D399" className="animate-pulse" />
+              <circle cx="0" cy="0" r="4" fill="#FFFFFF" />
+            </g>
+
+            {/* Sindh & Balochistan */}
+            <circle cx="240" cy="320" r="3" />
+            <circle cx="220" cy="300" r="3" />
+            <circle cx="190" cy="290" r="3" />
+            <circle cx="160" cy="280" r="3" />
+            <circle cx="210" cy="350" r="3" />
+            <circle cx="235" cy="375" r="3" />
+            <circle cx="260" cy="400" r="3" />
+            <circle cx="225" cy="425" r="3" />
+            <circle cx="200" cy="450" r="3" />
+          </g>
+        </svg>
+      </div>
+
+      <div className="absolute inset-0 bg-emerald-950/85 z-0"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-20 sm:py-28 lg:py-36 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 bg-emerald-900 border border-emerald-700 px-3.5 py-1.5 rounded-full text-emerald-200 text-xs sm:text-sm font-medium shadow-sm">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 bg-emerald-900 border border-emerald-700 px-3.5 py-1.5 rounded-full text-emerald-200 text-xs sm:text-sm font-medium shadow-sm"
+          >
             <ShieldCheck className="w-4 h-4 text-emerald-300" />
-            <span>Community • Youth • Welfare • Development • Since 1992</span>
-          </div>
+            <span>Community • Youth • Welfare • District Lodhran, Punjab • Since 1992</span>
+          </motion.div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
             Building Stronger Communities, <span className="text-emerald-300">Empowering Youth</span>
           </h1>
 
           <p className="text-base sm:text-lg text-emerald-100 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-            Young Welfare Society has been working for community welfare and social development since 1992, serving communities in Dhanot, Punjab, and beyond with an unwavering commitment to positive social change.
+            Young Welfare Society has been working for community welfare and social development since 1992, serving communities in Dhanot, District Lodhran, Punjab, and beyond with unwavering commitment.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
@@ -53,17 +127,25 @@ export const Hero: React.FC<HeroProps> = ({ setTab }) => {
               <p className="text-xs sm:text-sm text-emerald-300">Officially Registered</p>
             </div>
             <div>
-              <p className="text-2xl sm:text-3xl font-bold text-white">Dhanot</p>
-              <p className="text-xs sm:text-sm text-emerald-300">Punjab, Pakistan</p>
+              <div className="inline-flex items-center gap-1 justify-center lg:justify-start">
+                <MapPin className="w-4 h-4 text-emerald-400" />
+                <span className="text-2xl sm:text-3xl font-bold text-white">Lodhran</span>
+              </div>
+              <p className="text-xs sm:text-sm text-emerald-300">District HQ / Dhanot</p>
             </div>
           </div>
         </div>
 
         {/* Right column: Visual card featuring official YWS logo and credibility */}
         <div className="lg:col-span-5 flex justify-center">
-          <div className="relative w-full max-w-md bg-emerald-900 border border-emerald-700 p-6 sm:p-8 rounded-2xl shadow-2xl space-y-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="relative w-full max-w-md bg-emerald-900 border border-emerald-700 p-6 sm:p-8 rounded-2xl shadow-2xl space-y-6"
+          >
             <div className="absolute -top-4 -right-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
-              Official YWS
+              Official YWS • District Lodhran
             </div>
 
             <div className="flex items-center gap-4">
@@ -85,7 +167,7 @@ export const Hero: React.FC<HeroProps> = ({ setTab }) => {
 
             <div className="space-y-3 bg-emerald-950 p-4 rounded-xl border border-emerald-800 text-sm text-emerald-100">
               <p className="leading-relaxed">
-                "Working tirelessly toward community welfare, youth empowerment, and educational upliftment in Dhanot, Punjab since 1992."
+                "Working tirelessly toward community welfare, youth empowerment, and educational upliftment in Dhanot, District Lodhran since 1992."
               </p>
               <div className="flex items-center justify-between text-xs text-emerald-300 pt-2 border-t border-emerald-800">
                 <span>Social Welfare Dept, Ordinance XLVI of 1961</span>
@@ -100,7 +182,7 @@ export const Hero: React.FC<HeroProps> = ({ setTab }) => {
               <span>Explore Our Welfare Projects</span>
               <ArrowRight className="w-4 h-4" />
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
