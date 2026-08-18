@@ -20,12 +20,18 @@ import { ActivitiesPage } from './components/ActivitiesPage';
 import { GalleryPage } from './components/GalleryPage';
 import { FAQPage } from './components/FAQPage';
 import { AdminPanel } from './components/AdminPanel';
+import { InstallAppPage } from './components/InstallAppPage';
 import { WhatsAppChatbotWidget } from './components/WhatsAppChatbotWidget';
 import { Heart } from 'lucide-react';
 
 
 export default function App() {
-  const [currentTab, setTab] = useState<PageTab>('home');
+  const [currentTab, setTab] = useState<PageTab>(() => {
+    if (window.location.pathname.includes('installapp') || window.location.hash.includes('installapp')) {
+      return 'installapp';
+    }
+    return 'home';
+  });
 
   // Persistent state with localStorage
   const [orgInfo, setOrgInfo] = useState<OrgInfo>(() => {
@@ -199,6 +205,8 @@ export default function App() {
         {currentTab === 'get-involved' && <GetInvolvedSection onAddVolunteer={handleAddVolunteer} />}
 
         {currentTab === 'contact' && <ContactSection orgInfo={orgInfo} onAddMessage={handleAddMessage} />}
+
+        {currentTab === 'installapp' && <InstallAppPage setTab={setTab} />}
 
         {currentTab === 'admin' && (
           <AdminPanel

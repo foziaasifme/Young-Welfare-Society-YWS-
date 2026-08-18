@@ -1,4 +1,4 @@
-export type PageTab = 'home' | 'about' | 'work' | 'projects' | 'activities' | 'gallery' | 'get-involved' | 'contact' | 'faq' | 'admin';
+export type PageTab = 'home' | 'about' | 'work' | 'projects' | 'activities' | 'gallery' | 'get-involved' | 'contact' | 'faq' | 'admin' | 'installapp';
 
 export interface Project {
   id: string;
