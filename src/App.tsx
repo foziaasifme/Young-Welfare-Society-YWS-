@@ -173,7 +173,10 @@ export default function App() {
           </>
         )}
 
-        {currentTab === 'about' && <AboutPage orgInfo={orgInfo} />}
+        {currentTab === 'about' && <AboutPage orgInfo={orgInfo} initialSubTab="profile" />}
+        {currentTab === 'about-leadership' && <AboutPage orgInfo={orgInfo} initialSubTab="board" />}
+        {currentTab === 'about-staff' && <AboutPage orgInfo={orgInfo} initialSubTab="staff" />}
+        {currentTab === 'about-members' && <AboutPage orgInfo={orgInfo} initialSubTab="members" />}
 
         {currentTab === 'work' && (
           <div className="bg-white">

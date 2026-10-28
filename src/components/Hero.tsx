@@ -27,6 +27,22 @@ export const Hero: React.FC<HeroProps> = ({ setTab }) => {
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 py-20 sm:py-28 text-center space-y-8">
         
+        {/* Hero Official Crest Emblem */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="flex justify-center mb-1"
+        >
+          <div className="p-1.5 bg-white/95 rounded-full shadow-2xl border-2 border-yellow-400 backdrop-blur-md hover:scale-105 transition-transform">
+            <img 
+              src="/assets/aistudio/YWS__logo_bd6f5c5c.jpg" 
+              alt="Official Young Welfare Society Crest" 
+              className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-contain"
+            />
+          </div>
+        </motion.div>
+
         {/* Verification Pill */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -35,7 +51,7 @@ export const Hero: React.FC<HeroProps> = ({ setTab }) => {
           className="inline-flex items-center gap-2 bg-emerald-900/60 backdrop-blur-md border border-emerald-500/30 px-4 py-2 rounded-full text-emerald-200 text-xs sm:text-sm font-semibold tracking-wide shadow-lg"
         >
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>Reg. 16 Feb 1995 (Social Welfare Dept) • Dhanot, Lodhran</span>
+          <span>Reg. 16 Feb 1995 (Social Welfare Dept) • Lodhran, Punjab</span>
         </motion.div>
 
         {/* Master Heading inspired by attached layout */}

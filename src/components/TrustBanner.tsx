@@ -33,8 +33,12 @@ export const TrustBanner: React.FC = () => {
 
         {/* Beautiful Highlight Card: Quick Facts & Highlights of YWS NGO */}
         <div className="bg-emerald-50 border border-emerald-100 rounded-[32px] p-6 sm:p-8 max-w-4xl mx-auto shadow-sm flex flex-col md:flex-row items-center gap-6 sm:gap-8">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-yellow-400 text-emerald-950 rounded-3xl flex items-center justify-center shrink-0 shadow-md">
-            <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 animate-pulse text-emerald-900" />
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white p-1 rounded-full border-2 border-yellow-400 flex items-center justify-center shrink-0 shadow-md">
+            <img 
+              src="/assets/aistudio/YWS__logo_bd6f5c5c.jpg" 
+              alt="Young Welfare Society Emblem" 
+              className="w-full h-full object-contain rounded-full"
+            />
           </div>
           <div className="space-y-4 flex-grow">
             <div>

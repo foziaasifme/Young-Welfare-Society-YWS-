@@ -96,9 +96,18 @@ export const InstallAppPage: React.FC<InstallAppPageProps> = ({ setTab }) => {
           <div className="absolute right-0 top-0 w-96 h-96 bg-emerald-800 rounded-full filter blur-3xl opacity-50 -mr-20 -mt-20 pointer-events-none"></div>
           
           <div className="relative z-10 space-y-6 max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-emerald-800 border border-emerald-700 px-3.5 py-1.5 rounded-full text-emerald-200 text-xs font-semibold">
-              <Sparkles className="w-4 h-4 text-emerald-300" />
-              <span>Official Progressive Web App (PWA) • District Lodhran</span>
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white p-1 rounded-2xl border-2 border-yellow-400 shadow-lg shrink-0">
+                <img 
+                  src="/assets/aistudio/YWS__logo_bd6f5c5c.jpg" 
+                  alt="Young Welfare Society App Icon" 
+                  className="w-full h-full object-contain rounded-xl"
+                />
+              </div>
+              <div className="inline-flex items-center gap-2 bg-emerald-800 border border-emerald-700 px-3.5 py-1.5 rounded-full text-emerald-200 text-xs font-semibold">
+                <Sparkles className="w-4 h-4 text-emerald-300" />
+                <span>Official Progressive Web App (PWA) • District Lodhran</span>
+              </div>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">

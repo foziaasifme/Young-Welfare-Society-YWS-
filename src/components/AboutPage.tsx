@@ -8,10 +8,17 @@ import {
 
 interface AboutPageProps {
   orgInfo: OrgInfo;
+  initialSubTab?: 'profile' | 'values' | 'board' | 'staff' | 'members' | 'policies' | 'partners';
 }
 
-export const AboutPage: React.FC<AboutPageProps> = ({ orgInfo }) => {
-  const [activeSubTab, setActiveSubTab] = useState<'profile' | 'values' | 'board' | 'policies' | 'partners'>('profile');
+export const AboutPage: React.FC<AboutPageProps> = ({ orgInfo, initialSubTab = 'profile' }) => {
+  const [activeSubTab, setActiveSubTab] = useState<'profile' | 'values' | 'board' | 'staff' | 'members' | 'policies' | 'partners'>(initialSubTab);
+
+  React.useEffect(() => {
+    if (initialSubTab) {
+      setActiveSubTab(initialSubTab);
+    }
+  }, [initialSubTab]);
 
   const boardOfDirectors = [
     {
@@ -50,6 +57,74 @@ export const AboutPage: React.FC<AboutPageProps> = ({ orgInfo }) => {
       details: "Graduate Journalist managing media correspondence, public relations, project visibility, and social publications."
     }
   ];
+
+  const staffExecutionTeam = [
+    {
+      name: "Barkat Ali Riaz",
+      role: "Chief Executive Officer (CEO)",
+      department: "Executive Management",
+      qualification: "BSc Civil Engineer (PE), Ex COO LPP",
+      bio: "Leads organizational governance, strategic partnerships, and structural project execution across Southern Punjab."
+    },
+    {
+      name: "Muhammad Asif Anwar",
+      role: "Finance & Accounts Director",
+      department: "Finance & Audit",
+      qualification: "MBA Finance",
+      bio: "Oversees fiscal management, Peachtree accounting software controls, and quarterly auditing compliance."
+    },
+    {
+      name: "Dr. Malik Muhammad Nasir Vance",
+      role: "Health & Rehabilitation Coordinator",
+      department: "Clinical & Welfare Services",
+      qualification: "DHMS / Medical Practitioner",
+      bio: "Directs free eye surgical camps, diabetic diagnostics, and physical rehabilitation operations at RCPD."
+    },
+    {
+      name: "Shamshad Ahmad",
+      role: "Program & Education Manager",
+      department: "Literacy & Community Development",
+      qualification: "Masters in Education",
+      bio: "Manages Non-Formal Basic Education centers, women's vocational training hubs, and youth literacy camps."
+    },
+    {
+      name: "Nasrudin Dispenser",
+      role: "Emergency Relief & Ambulance Incharge",
+      department: "Health & Emergency Relief",
+      qualification: "Certified Medical Dispenser",
+      bio: "Coordinates YWS emergency ambulance shifting services, Hepatitis B vaccination drives, and clinical supply chains."
+    },
+    {
+      name: "Muhammad Alim Shakir",
+      role: "Media & Public Relations Officer",
+      department: "Communications & Outreach",
+      qualification: "MA Journalism",
+      bio: "Coordinates press briefings, donor reporting, digital portals, and community mobilization drives."
+    }
+  ];
+
+  const generalMembersAndVolunteers = {
+    totalGeneralMembers: "120+ Active Registered Members",
+    volunteerCadreCount: "350+ Trained Youth & Female Mobilizers",
+    wings: [
+      {
+        title: "Executive General Body",
+        desc: "Comprises local doctors, engineers, lawyers, academics, and civic elders who meet quarterly to deliberate and vote on institutional policies, strategic budgets, and strategic directions."
+      },
+      {
+        title: "Youth & Student Volunteer Wing",
+        desc: "Over 200 enthusiastic university and college students from District Lodhran involved in organizing tree plantation drives, sports leagues, and disaster relief campaigns."
+      },
+      {
+        title: "Women Empowerment Council",
+        desc: "Grassroots female instructors and community mobilizers supervising vocational stitching schools, adult female literacy centers, and mother-child health guidance sessions."
+      },
+      {
+        title: "Medical & Clinical First-Responders",
+        desc: "Volunteer doctors, nurses, and lab technicians who offer free weekend shifts at YWS diagnostic dispensaries and annual 7-day free eye camps."
+      }
+    ]
+  };
 
   const coreValues = [
     {
@@ -100,6 +175,15 @@ export const AboutPage: React.FC<AboutPageProps> = ({ orgInfo }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/90 to-emerald-900/95 z-0" />
         
         <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 text-center space-y-4">
+          <div className="flex justify-center mb-2">
+            <div className="p-1.5 bg-white rounded-full border-2 border-yellow-400 shadow-xl">
+              <img 
+                src={orgInfo.logoUrl || "/assets/aistudio/YWS__logo_bd6f5c5c.jpg"} 
+                alt="YWS Official Logo Seal" 
+                className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-full"
+              />
+            </div>
+          </div>
           <div className="inline-flex items-center gap-2 bg-emerald-800/80 border border-emerald-600/40 px-4 py-1.5 rounded-full text-emerald-200 text-xs font-semibold uppercase tracking-widest">
             <Sparkles className="w-4 h-4 text-yellow-400" />
             <span>Official NGO Corporate Profile Booklet</span>
@@ -120,6 +204,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ orgInfo }) => {
             { id: 'profile', label: 'Company Profile', icon: Landmark },
             { id: 'values', label: 'Mission & Core Values', icon: Compass },
             { id: 'board', label: 'Board of Directors', icon: Users },
+            { id: 'staff', label: 'Staff & Execution Team', icon: Briefcase },
+            { id: 'members', label: 'Members & Volunteers', icon: Users2 },
             { id: 'policies', label: 'Standard Policies & SOPs', icon: FileSpreadsheet },
             { id: 'partners', label: 'Partners & Linkages', icon: Handshake }
           ].map((tab) => {
@@ -401,6 +487,93 @@ export const AboutPage: React.FC<AboutPageProps> = ({ orgInfo }) => {
                 </div>
               </div>
 
+            </div>
+          )}
+
+          {/* Sub Tab: STAFF & EXECUTION TEAM */}
+          {activeSubTab === 'staff' && (
+            <div className="space-y-8 animate-fade-in">
+              <div className="bg-white rounded-[32px] p-6 sm:p-8 border border-gray-200/80 shadow-sm space-y-6">
+                <div className="max-w-3xl space-y-2">
+                  <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full uppercase tracking-wider">
+                    Executive Operations & Project Cadre
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-black text-gray-900">Staff & Execution Team</h2>
+                  <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
+                    Our dedicated team of project directors, clinical dispensers, education supervisors, and finance officers work tirelessly on the ground to manage YWS projects and community welfare initiatives.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+                  {staffExecutionTeam.map((staff, idx) => (
+                    <div key={idx} className="bg-emerald-50/40 border border-emerald-100 p-6 rounded-2xl space-y-3 hover:bg-emerald-50 transition-all flex flex-col justify-between">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="bg-emerald-100 text-emerald-900 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
+                            {staff.department}
+                          </span>
+                          <span className="text-emerald-700 font-bold text-xs">Staff 0{idx+1}</span>
+                        </div>
+                        <h3 className="font-extrabold text-gray-900 text-base">{staff.name}</h3>
+                        <p className="text-xs font-semibold text-emerald-800">{staff.role}</p>
+                        <p className="text-[11px] text-gray-500 font-medium italic">Qualification: {staff.qualification}</p>
+                        <p className="text-xs text-gray-600 leading-relaxed font-light pt-1 border-t border-emerald-100/60">{staff.bio}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Sub Tab: GENERAL MEMBERS & VOLUNTEERS */}
+          {activeSubTab === 'members' && (
+            <div className="space-y-8 animate-fade-in">
+              <div className="bg-white rounded-[32px] p-6 sm:p-8 border border-gray-200/80 shadow-sm space-y-6">
+                <div className="max-w-3xl space-y-2">
+                  <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full uppercase tracking-wider">
+                    Community Foundation
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-black text-gray-900">General Members & Volunteers</h2>
+                  <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
+                    The heart of Young Welfare Society lies in its transparent General Body network and 350+ active volunteers who drive grassroots mobilization across District Lodhran.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-emerald-900 text-white p-6 rounded-2xl flex items-center gap-4 shadow-sm">
+                    <div className="w-12 h-12 bg-yellow-400 text-emerald-950 rounded-xl flex items-center justify-center font-bold shrink-0">
+                      <Users className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-white">{generalMembersAndVolunteers.totalGeneralMembers}</p>
+                      <p className="text-xs text-emerald-200">Registered Civic General Body</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-emerald-800 text-white p-6 rounded-2xl flex items-center gap-4 shadow-sm">
+                    <div className="w-12 h-12 bg-emerald-700 text-yellow-300 rounded-xl flex items-center justify-center font-bold shrink-0">
+                      <Heart className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-white">{generalMembersAndVolunteers.volunteerCadreCount}</p>
+                      <p className="text-xs text-emerald-200">Field Volunteers & Mobilizers</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                  {generalMembersAndVolunteers.wings.map((wing, i) => (
+                    <div key={i} className="bg-gray-50 border border-gray-200 p-6 rounded-2xl space-y-2">
+                      <h3 className="font-bold text-emerald-950 text-base flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>
+                        <span>{wing.title}</span>
+                      </h3>
+                      <p className="text-xs text-gray-600 leading-relaxed font-light">{wing.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 

@@ -3,13 +3,14 @@ import { Project, ActivityItem, GalleryImage, OrgInfo, FAQItem } from '../types'
 export const initialOrgInfo: OrgInfo = {
   name: "Young Welfare Society (YWS)",
   shortName: "YWS",
+  logoUrl: "/assets/aistudio/YWS__logo_bd6f5c5c.jpg",
   establishedYear: 1992,
   registrationDate: "16 February 1995",
   registrationDetails: "Registered under the Social Welfare Department, Ordinance XLVI of 1961, Government of Punjab, Pakistan.",
-  address: "Dhanot, Punjab, Pakistan",
+  address: "Lodhran, Punjab, Pakistan",
   phonePrimary: "+92 300 8686046",
   phoneSecondary: "+92 300 8885072",
-  email: "yws.lodhran@gmail.com",
+  email: "youngwelfare@outlook.com",
   facebookUrl: "https://www.facebook.com/yws.pk/",
   mission: "To foster positive social change by empowering youth, uplifting underprivileged communities, promoting education, and championing sustainable community welfare with dedication, integrity, and volunteer spirit.",
   vision: "A resilient, educated, and self-reliant society where every individual has equal opportunities for growth, dignity, and active civic participation.",
@@ -401,7 +402,7 @@ export const initialFAQs: FAQItem[] = [
   {
     id: "faq-4",
     question: "Where is YWS located and how can we contact the office?",
-    answer: "Our main office is located in Dhanot, Punjab, Pakistan. You can contact us via phone at +92 300 8686046 / +92 300 8885072 or email us at yws.lodhran@gmail.com.",
+    answer: "Our main office is located in Lodhran, Punjab, Pakistan. You can contact us via phone at +92 300 8686046 / +92 300 8885072 or email us at youngwelfare@outlook.com.",
     category: "General"
   },
   {

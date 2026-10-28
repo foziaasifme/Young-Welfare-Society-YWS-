@@ -242,10 +242,9 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
             <div className="flex items-center gap-3">
               <div className="relative">
                 <img
-                  src="https://scontent.flhe6-1.fna.fbcdn.net/v/t39.30808-6/307522632_460965826068810_7436339115934143457_n.jpg?stp=dst-jpg_tt6&cstp=mx1112x1112&ctp=s1112x1112&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=3gjekZfhkc4Q7kNvwEbybSr&_nc_oc=Adr7TsI1Q2HmEUUfzTO6TIdKNovVFJLGb1VUmJ3jbZjE7Kg7PRJ-igDbFxiRX5_QWTE&_nc_zt=23&_nc_ht=scontent.flhe6-1.fna&_nc_gid=HCsxZewAkE1Ii4JDXmKnOA&_nc_ss=7a289&oh=00_AQHxw37gFYn2Id2tD5Ws5jdHKqcMr-ELZz9fdgO6n7n12A&oe=6A89B8E7"
+                  src={orgInfo.logoUrl || "/assets/aistudio/YWS__logo_bd6f5c5c.jpg"}
                   alt="YWS Bot"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-white"
-                  referrerPolicy="no-referrer"
+                  className="w-10 h-10 rounded-full object-contain bg-white p-0.5 border-2 border-white"
                 />
                 <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-[#075e54] rounded-full"></span>
               </div>

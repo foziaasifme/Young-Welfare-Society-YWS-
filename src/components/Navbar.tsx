@@ -24,13 +24,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
   const [masterKeyInput, setMasterKeyInput] = useState('');
   const [masterKeyError, setMasterKeyError] = useState(false);
 
-  // Mega Menu Dropdown State for "Our Work"
+  // Mega Menu Dropdown State for "Our Work" and "About / Who We Are"
   const [workDropdownOpen, setWorkDropdownOpen] = useState(false);
+  const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
 
-  // Removed Gallery and FAQ from Header navLinks per instructions
   const navLinks: { id: PageTab; label: string; hasDropdown?: boolean }[] = [
     { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
+    { id: 'about', label: 'About', hasDropdown: true },
     { id: 'work', label: 'Our Work', hasDropdown: true },
     { id: 'contact', label: 'Contact' },
   ];
@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
             <div className="flex items-center gap-4 flex-wrap justify-center sm:justify-start">
               <span className="flex items-center gap-1.5 font-medium">
                 <ShieldCheck className="w-4 h-4 text-emerald-300" />
-                Est. 1992 | Reg. 16 Feb 1995 (Social Welfare Dept)
+                Reg. 16 Feb 1995 (Social Welfare Dept) • Lodhran, Punjab
               </span>
               <a href={`tel:${orgInfo.phonePrimary}`} className="flex items-center gap-1.5 hover:text-emerald-200 transition-colors">
                 <Phone className="w-3.5 h-3.5 text-emerald-300" />
@@ -127,24 +127,112 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
             className="flex items-center gap-3 cursor-pointer group shrink-0"
           >
             <img
-              src="https://scontent.flhe6-1.fna.fbcdn.net/v/t39.30808-6/307522632_460965826068810_7436339115934143457_n.jpg?stp=dst-jpg_tt6&cstp=mx1112x1112&ctp=s1112x1112&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=3gjekZfhkc4Q7kNvwEbybSr&_nc_oc=Adr7TsI1Q2HmEUUfzTO6TIdKNovVFJLGb1VUmJ3jbZjE7Kg7PRJ-igDbFxiRX5_QWTE&_nc_zt=23&_nc_ht=scontent.flhe6-1.fna&_nc_gid=HCsxZewAkE1Ii4JDXmKnOA&_nc_ss=7a289&oh=00_AQHxw37gFYn2Id2tD5Ws5jdHKqcMr-ELZz9fdgO6n7n12A&oe=6A89B8E7"
+              src={orgInfo.logoUrl || "/assets/aistudio/YWS__logo_bd6f5c5c.jpg"}
               alt="Young Welfare Society Logo"
-              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-emerald-600 shadow-sm group-hover:scale-105 transition-transform"
-              referrerPolicy="no-referrer"
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-contain bg-white p-0.5 border-2 border-emerald-600 shadow-sm group-hover:scale-105 transition-transform"
             />
             <div>
               <h1 className="text-lg sm:text-xl font-bold text-emerald-950 tracking-tight leading-snug">
                 Young Welfare Society
               </h1>
               <p className="text-xs text-emerald-700 font-medium">
-                Dhanot, Punjab, Pakistan • (YWS)
+                Lodhran, Punjab, Pakistan • (YWS)
               </p>
             </div>
           </div>
 
-          {/* Desktop Nav with Mega Menu for Our Work */}
+          {/* Desktop Nav with Mega Menu for About and Our Work */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2 shrink-0 relative">
             {navLinks.map((link) => {
+              if (link.id === 'about') {
+                return (
+                  <div
+                    key={link.id}
+                    className="relative"
+                    onMouseEnter={() => setAboutDropdownOpen(true)}
+                    onMouseLeave={() => setAboutDropdownOpen(false)}
+                  >
+                    <button
+                      onClick={() => setTab('about')}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
+                        currentTab === 'about' || currentTab === 'about-leadership' || currentTab === 'about-staff' || currentTab === 'about-members'
+                          ? 'bg-emerald-600 text-white shadow-sm'
+                          : 'text-gray-700 hover:bg-emerald-50 hover:text-emerald-900'
+                      }`}
+                    >
+                      <span>{link.label}</span>
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+
+                    {/* "Who We Are" Mega Submenu */}
+                    {aboutDropdownOpen && (
+                      <div className="absolute top-full left-0 mt-1 w-80 bg-white rounded-2xl shadow-xl border border-emerald-100 p-3 z-50 animate-in fade-in duration-200 space-y-1">
+                        <div className="px-3 py-2 text-[11px] font-bold text-emerald-800 uppercase tracking-wider border-b border-gray-100 flex items-center justify-between">
+                          <span>Who We Are</span>
+                          <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-semibold">About Mega Menu</span>
+                        </div>
+
+                        <button
+                          onClick={() => {
+                            setTab('about');
+                            setAboutDropdownOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-950 transition-colors flex items-center justify-between group"
+                        >
+                          <div>
+                            <span className="font-semibold text-gray-900 block group-hover:text-emerald-900">Who We Are Overview</span>
+                            <span className="text-[11px] text-gray-500">Corporate profile, history & mission</span>
+                          </div>
+                          <ArrowRight className="w-3.5 h-3.5 text-emerald-600 group-hover:translate-x-1 transition-transform" />
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setTab('about-leadership');
+                            setAboutDropdownOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-950 transition-colors flex items-center justify-between group"
+                        >
+                          <div>
+                            <span className="font-semibold text-gray-900 block group-hover:text-emerald-900">Leadership & Board</span>
+                            <span className="text-[11px] text-gray-500">Board of Directors & Executive Body</span>
+                          </div>
+                          <ArrowRight className="w-3.5 h-3.5 text-emerald-600 group-hover:translate-x-1 transition-transform" />
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setTab('about-staff');
+                            setAboutDropdownOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-950 transition-colors flex items-center justify-between group"
+                        >
+                          <div>
+                            <span className="font-semibold text-gray-900 block group-hover:text-emerald-900">Staff & Execution Team</span>
+                            <span className="text-[11px] text-gray-500">Project managers, coordinators & staff</span>
+                          </div>
+                          <ArrowRight className="w-3.5 h-3.5 text-emerald-600 group-hover:translate-x-1 transition-transform" />
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setTab('about-members');
+                            setAboutDropdownOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-950 transition-colors flex items-center justify-between group"
+                        >
+                          <div>
+                            <span className="font-semibold text-gray-900 block group-hover:text-emerald-900">General Members & Volunteers</span>
+                            <span className="text-[11px] text-gray-500">Community members & volunteer cadre</span>
+                          </div>
+                          <ArrowRight className="w-3.5 h-3.5 text-emerald-600 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               if (link.id === 'work') {
                 return (
                   <div
@@ -290,6 +378,29 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, orgInfo, pro
                 {link.label}
               </button>
             ))}
+
+            {/* Mobile Submenu Links for Who We Are */}
+            <div className="pl-4 border-l-2 border-emerald-200 space-y-1 my-2 bg-emerald-50/50 p-2 rounded-r-xl">
+              <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider block mb-1">Who We Are Sections</span>
+              <button
+                onClick={() => { setTab('about-leadership'); setMobileMenuOpen(false); }}
+                className="w-full text-left py-1.5 text-xs font-semibold text-emerald-900 hover:underline block"
+              >
+                → Leadership & Board
+              </button>
+              <button
+                onClick={() => { setTab('about-staff'); setMobileMenuOpen(false); }}
+                className="w-full text-left py-1.5 text-xs font-semibold text-emerald-900 hover:underline block"
+              >
+                → Staff & Execution Team
+              </button>
+              <button
+                onClick={() => { setTab('about-members'); setMobileMenuOpen(false); }}
+                className="w-full text-left py-1.5 text-xs font-semibold text-emerald-900 hover:underline block"
+              >
+                → General Members & Volunteers
+              </button>
+            </div>
 
             {/* Mobile Mega Menu Links for Work */}
             <div className="pl-4 border-l-2 border-emerald-200 space-y-1 my-1">

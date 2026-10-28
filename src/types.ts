@@ -1,4 +1,4 @@
-export type PageTab = 'home' | 'about' | 'work' | 'projects' | 'activities' | 'gallery' | 'get-involved' | 'contact' | 'faq' | 'admin' | 'installapp';
+export type PageTab = 'home' | 'about' | 'about-leadership' | 'about-staff' | 'about-members' | 'work' | 'projects' | 'activities' | 'gallery' | 'get-involved' | 'contact' | 'faq' | 'admin' | 'installapp';
 
 export interface Project {
   id: string;
@@ -102,6 +102,7 @@ export interface ChatConversationRecord {
 export interface OrgInfo {
   name: string;
   shortName: string;
+  logoUrl?: string;
   establishedYear: number;
   registrationDate: string;
   registrationDetails: string;

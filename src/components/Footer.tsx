@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PageTab, OrgInfo, NewsletterSubscriber } from '../types';
 import { Phone, Mail, MapPin, Facebook, Heart, ShieldCheck, ChevronRight, Send, CheckCircle2, Award, Sparkles } from 'lucide-react';
+import { PolicyModal, PolicyType } from './PolicyModal';
 
 interface FooterProps {
   setTab: (tab: PageTab) => void;
@@ -13,6 +14,8 @@ export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo, onAddSubscriber
   const [lastName, setLastName] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [policyOpen, setPolicyOpen] = useState(false);
+  const [selectedPolicy, setSelectedPolicy] = useState<PolicyType>('privacy');
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,10 +124,9 @@ export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo, onAddSubscriber
         <div className="md:col-span-5 space-y-6">
           <div className="flex items-center gap-3">
             <img
-              src="https://scontent.flhe6-1.fna.fbcdn.net/v/t39.30808-6/307522632_460965826068810_7436339115934143457_n.jpg?stp=dst-jpg_tt6&cstp=mx1112x1112&ctp=s1112x1112&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=3gjekZfhkc4Q7kNvwEbybSr&_nc_oc=Adr7TsI1Q2HmEUUfzTO6TIdKNovVFJLGb1VUmJ3jbZjE7Kg7PRJ-igDbFxiRX5_QWTE&_nc_zt=23&_nc_ht=scontent.flhe6-1.fna&_nc_gid=HCsxZewAkE1Ii4JDXmKnOA&_nc_ss=7a289&oh=00_AQHxw37gFYn2Id2tD5Ws5jdHKqcMr-ELZz9fdgO6n7n12A&oe=6A89B8E7"
+              src={orgInfo.logoUrl || "/assets/aistudio/YWS__logo_bd6f5c5c.jpg"}
               alt="YWS Logo"
-              className="w-16 h-16 rounded-full object-cover border-2 border-yellow-400"
-              referrerPolicy="no-referrer"
+              className="w-16 h-16 rounded-full object-contain bg-white p-1 border-2 border-yellow-400 shadow"
             />
             <div>
               <h3 className="font-extrabold text-white text-xl tracking-tight">Young Welfare Society</h3>
@@ -199,9 +201,7 @@ export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo, onAddSubscriber
             <div className="flex items-start gap-2.5">
               <Mail className="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" />
               <div>
-                <p className="font-semibold text-white">Email Channels</p>
                 <a href={`mailto:${orgInfo.email}`} className="text-xs text-emerald-200 hover:text-white transition-colors block">{orgInfo.email}</a>
-                <a href="mailto:info@youngwelfare.org" className="text-xs text-emerald-300 hover:text-white transition-colors block">info@youngwelfare.org</a>
               </div>
             </div>
 
@@ -257,13 +257,34 @@ export const Footer: React.FC<FooterProps> = ({ setTab, orgInfo, onAddSubscriber
           <span>Developed by <a href="https://mediaplus.ai.studio/" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-yellow-300 underline font-medium transition-colors">Mediaplus Digital</a></span>
         </p>
         <div className="flex gap-4">
-          <a href="#" className="hover:text-white transition-colors">Accessibility Policy</a>
+          <button 
+            onClick={() => { setSelectedPolicy('accessibility'); setPolicyOpen(true); }} 
+            className="hover:text-white transition-colors cursor-pointer"
+          >
+            Accessibility Policy
+          </button>
           <span>|</span>
-          <a href="#" className="hover:text-white transition-colors">Terms of Use</a>
+          <button 
+            onClick={() => { setSelectedPolicy('terms'); setPolicyOpen(true); }} 
+            className="hover:text-white transition-colors cursor-pointer"
+          >
+            Terms of Use
+          </button>
           <span>|</span>
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <button 
+            onClick={() => { setSelectedPolicy('privacy'); setPolicyOpen(true); }} 
+            className="hover:text-white transition-colors cursor-pointer"
+          >
+            Privacy Policy
+          </button>
         </div>
       </div>
+
+      <PolicyModal 
+        isOpen={policyOpen} 
+        onClose={() => setPolicyOpen(false)} 
+        initialType={selectedPolicy} 
+      />
 
     </footer>
   );
